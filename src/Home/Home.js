@@ -9,7 +9,6 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    //run json-server --watch --port 3001 fakejson.json
     axios.get("http://localhost:8080/blog-java/api/v1/posts/list").then(
       (response) => {
         this.setState(

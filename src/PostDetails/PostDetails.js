@@ -4,7 +4,8 @@ import placeholder from '../Assets/avatar_placeholder.png'
 
 class PostDetails extends Component {
     state = {
-        fullPost : {}
+        fullPost: {},
+        comments: []
     }
 
 
@@ -16,11 +17,71 @@ class PostDetails extends Component {
                 );
             }
         );
+
+        axios.get("http://localhost:8080/blog-java/api/v1/comments/post/" + this.props.match.params.postId).then(
+            (response) => {
+                this.setState(
+                    { comments: response.data }
+                );
+            }
+        );
+
+
     }
 
     render(props) {
         let postComponent;
-        if (this.state.fullPost != null) {
+
+        let commentsComponent;
+
+
+        if (!Object.keys(this.state.comments).length == 0) {
+            commentsComponent = (
+                <div className="col-md-6 col-md-offset-6 commentspropsntainer" >
+
+                    <div className="row">
+                        <div className="col-md-4">
+
+                            <img src={placeholder} alt="" width="100px" className="img-responsive" />
+
+                        </div>
+
+                        <div className="col-md-8">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur saepe, velit magnam itaque facere
+                              ratione officiis a exercitationem perferendis? Quidem, labore nihil vel unde nesciunt illum voluptatem.
+                                Quia, veniam eius!</p>
+                        </div>
+                    </div>
+
+
+                    <div className="row">
+                        <div className="col-md-4">
+
+                            <img src={placeholder} alt="" width="100px" className="img-responsive" />
+
+                        </div>
+
+                        <div className="col-md-8">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur saepe,
+                                velit magnam itaque facere
+                              ratione officiis a exercitationem perferendis? Quidem, labore nihil vel unde nesciunt illum voluptatem.
+                              Quia, veniam eius!</p>
+                        </div>
+                    </div>
+
+                </div>
+            );
+        }
+        else {
+            commentsComponent = (
+                <div>
+                    <p>Seja o primeiro a comentar.</p>
+                </div>
+            );
+        }
+
+
+        if (!Object.keys(this.state.fullPost).length == 0) {
             postComponent = (
                 <div className="row d-block">
 
@@ -28,7 +89,7 @@ class PostDetails extends Component {
 
                         <h3>{this.state.fullPost.title}</h3>
 
-                        <p>{this.state.fullPost.content}}</p>
+                        <p>{this.state.fullPost.content}</p>
 
                     </div>
 
@@ -50,38 +111,7 @@ class PostDetails extends Component {
 
                     <h4 className="comments-title">Comentários</h4>
 
-                    <div className="col-md-6 col-md-offset-6 commentspropsntainer" >
-
-                        <div className="row">
-                            <div className="col-md-4">
-
-                                <img src={placeholder} alt="" width="100px" className="img-responsive"/>
-
-                            </div>
-
-                            <div className="col-md-8">
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur saepe, velit magnam itaque facere
-                                  ratione officiis a exercitationem perferendis? Quidem, labore nihil vel unde nesciunt illum voluptatem.
-                                    Quia, veniam eius!</p>
-                            </div>
-                        </div>
-
-
-                        <div className="row">
-                            <div className="col-md-4">
-
-                             <img src={placeholder} alt="" width="100px" className="img-responsive"/>
-
-                            </div>
-
-                            <div className="col-md-8">
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur saepe, velit magnam itaque facere
-                                  ratione officiis a exercitationem perferendis? Quidem, labore nihil vel unde nesciunt illum voluptatem.
-                                      Quia, veniam eius!</p>
-                            </div>
-                        </div>
-
-                    </div>
+                    {commentsComponent}
 
 
                 </div>
@@ -94,6 +124,7 @@ class PostDetails extends Component {
                 </div>
             );
         }
+
         return postComponent
     }
 }
