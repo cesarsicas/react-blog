@@ -1,0 +1,21 @@
+.content {
+  padding: 8px;
+  
+}
+
+.right-columm h2{
+  text-align: center;
+}
+ 
+.right-columm p{
+  text-align: justify;
+}
+
+.blog-item .content {
+  margin: 0px 32px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.comments-form-container{
+  margin-bottom: 50px;
+}
