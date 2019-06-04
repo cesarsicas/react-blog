@@ -4,10 +4,19 @@ import Comment from '../Comment/Comment'
 
 class PostDetails extends Component {
     state = {
-        fullPost: {}        
+        fullPost: {}
     }
 
-    componentDidMount() {
+    constructor() {
+        super();
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount(){
+        this.refreshPost();
+    }
+
+    refreshPost() {
         axios.get("http://localhost:8080/posts/" + this.props.match.params.postId).then(
             (response) => {
                 this.setState(
@@ -16,6 +25,22 @@ class PostDetails extends Component {
             }
         );
 
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        const data = new FormData(event.target);
+
+        axios.post("http://localhost:8080/posts/" + this.props.match.params.postId + "/comments",
+            {
+                "author": data.get('commentAuthor'),
+                "content": data.get('commentBody')
+            }).then(
+                (response) => {
+                    this.refreshPost();
+                }
+            );
     }
 
     render(props) {
@@ -28,12 +53,12 @@ class PostDetails extends Component {
 
 
             if (!Object.keys(this.state.fullPost.comment).length == 0) {
-                commentsComponent= this.state.fullPost.comment.map(
+                commentsComponent = this.state.fullPost.comment.map(
                     (comment, index) => {
-                    return <Comment
-                        author={comment.author}
-                        content={comment.content}
-                        id={comment.id} />
+                        return <Comment
+                            author={comment.author}
+                            content={comment.content}
+                            id={comment.id} />
                     }
                 );
             }
@@ -45,7 +70,7 @@ class PostDetails extends Component {
                 );
             }
 
-            
+
             postComponent = (
                 <div className="row d-block">
 
@@ -58,17 +83,18 @@ class PostDetails extends Component {
                     </div>
 
                     <div className="col-md-5 col-md-offset-7 comments-form-container">
-                        <form>
+                        <form onSubmit={this.handleSubmit} >
                             <div className="form-group">
                                 <label htmlFor="commentAuthor">Name</label>
-                                <input type="text" className="form-control" id="commentAuthor" placeholder="Digite seu nome" />
+                                <input name="commentAuthor" type="text" className="form-control" id="commentAuthor" placeholder="Digite seu nome" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="commentBody">Comentário</label>
-                                <textarea type="text" className="form-control" id="commentBody" placeholder="Envie seu comentário"></textarea>
+                                <textarea name="commentBody" type="text" className="form-control" id="commentBody" placeholder="Envie seu comentário"></textarea>
                             </div>
 
-                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <button className="btn btn-primary">Send</button>
+
                         </form>
                     </div>
 
@@ -78,7 +104,7 @@ class PostDetails extends Component {
                     <div className="col-md-6">
                         {commentsComponent}
                     </div>
-                      
+
                 </div>
             );
         }
