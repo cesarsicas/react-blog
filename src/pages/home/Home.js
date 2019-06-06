@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Post from '../Post/Post'
+import Post from '../../components/post/Post'
 
 class Home extends React.Component {
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import './App.css';
-import Home from './Home/Home'
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import PostDetails from './PostDetails/PostDetails';
+import Home from './pages/home/Home';
+import PostDetails from './pages/postDetails/PostDetails';
+import PostManagement from './pages/postManagement/PostManagement';
+
 
 function App() {
   return (
@@ -49,6 +51,7 @@ function App() {
         <Router>
           <Route exact path="/" component={Home} />
           <Route exact path="/details/:postId" component={PostDetails} />
+          <Route exact path="/admin/posts" component={PostManagement} />
         </Router>
 
 

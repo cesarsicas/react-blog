@@ -1,5 +1,5 @@
 import React from 'react'
-import placeholder from '../Assets/avatar_placeholder.png'
+import placeholder from '../../assets/avatar_placeholder.png'
 
 function Comment(props) {
 

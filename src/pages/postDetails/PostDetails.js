@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Comment from '../Comment/Comment'
+import Comment from '../../components/comment/Comment'
 
 class PostDetails extends Component {
     state = {
@@ -104,7 +104,6 @@ class PostDetails extends Component {
                     <div className="col-md-6">
                         {commentsComponent}
                     </div>
-
                 </div>
             );
         }
