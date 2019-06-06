@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 
 class PostManagement extends React.Component {
 
@@ -7,53 +8,47 @@ class PostManagement extends React.Component {
   }
 
   componentDidMount() {
-    // axios.get("http://localhost:8080/posts/list").then(
-    //   (response) => {
-    //     this.setState({ posts: response.data}
-    //     );
-    //   }
-    // );
+    axios.get("http://localhost:8080/posts/list").then(
+      (response) => {
+        this.setState({ posts: response.data }
+        );
+      }
+    );
   }
 
   render() {
 
-    return(
-        <div>
-            <p>Arroz admin</p>
-        </div>
+    const postRowComponents = this.state.posts.map(
+      (post, index) => {
+        return (<tr>
+                  <td scope="row">{post.id}</td>
+                  <td>{post.title}</td>
+                  <td>
+                    <a className="btn btn-sm btn-info">Editar</a>
+                    <a className="btn  btn-sm btn-danger">Excluir</a>
+                  </td>                
+               </tr>);
+      }
     );
 
-    // const postsComponents = this.state.posts.map(
-    //   (post, index) => {
-    //     return <Post
-    //       id={post.id}
-    //       title={post.title}
-    //       content={post.content} />
-    //   }
-    // );
 
-    // return (
-    //   <div>
-    //     <div className="row">
-    //       <div className="col-md-8">          
-     
-    //           {postsComponents}
-                                         
-    //       </div>
-
-    //       <div className="col-md-3 col-md-offset-1">
-    //         <div className="row d-block center right-columm">
-    //           <div className="content">
-    //             <h2>Right Column</h2>
-    //             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit inventore deserunt perferendis deleniti autem! Atque amet quam non reprehenderit, delectus saepe minima aperiam ducimus ipsa ipsum nostrum consequatur nulla provident!</p>
-    //           </div>
-    //         </div>
-
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
+    return (
+      <div className="post-admin-container">
+        <h2>Posts</h2>
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+              {postRowComponents}
+          </tbody>
+        </table>
+      </div>
+    );
   }
 }
-
 export default PostManagement;
