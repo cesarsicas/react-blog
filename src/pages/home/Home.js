@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import Post from '../../components/post/Post'
+import SiteLayout from '../../layouts/site/SiteLayout';
 
 class Home extends React.Component {
 
@@ -11,7 +12,7 @@ class Home extends React.Component {
   componentDidMount() {
     axios.get("http://localhost:8080/posts/list").then(
       (response) => {
-        this.setState({ posts: response.data}
+        this.setState({ posts: response.data }
         );
       }
     );
@@ -29,25 +30,27 @@ class Home extends React.Component {
     );
 
     return (
-      <div>
-        <div className="row">
-          <div className="col-md-8">          
-     
-              {postsComponents}
-                                         
-          </div>
+      <SiteLayout>
+        <div>
+          <div className="row">
+            <div className="col-md-8">
 
-          <div className="col-md-3 col-md-offset-1">
-            <div className="row d-block center right-columm">
-              <div className="content">
-                <h2>Right Column</h2>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit inventore deserunt perferendis deleniti autem! Atque amet quam non reprehenderit, delectus saepe minima aperiam ducimus ipsa ipsum nostrum consequatur nulla provident!</p>
-              </div>
+              {postsComponents}
+
             </div>
 
+            <div className="col-md-3 col-md-offset-1">
+              <div className="row d-block center right-columm">
+                <div className="content">
+                  <h2>Right Column</h2>
+                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit inventore deserunt perferendis deleniti autem! Atque amet quam non reprehenderit, delectus saepe minima aperiam ducimus ipsa ipsum nostrum consequatur nulla provident!</p>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-      </div>
+      </SiteLayout>
     );
   }
 }

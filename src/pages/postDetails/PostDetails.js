@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Comment from '../../components/comment/Comment'
+import SiteLayout from '../../layouts/site/SiteLayout';
 
 class PostDetails extends Component {
     state = {
@@ -12,7 +13,7 @@ class PostDetails extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.refreshPost();
     }
 
@@ -72,39 +73,41 @@ class PostDetails extends Component {
 
 
             postComponent = (
-                <div className="row d-block">
+                <SiteLayout>
+                    <div className="row d-block">
 
-                    <div className="post-body col-md-12">
+                        <div className="post-body col-md-12">
 
-                        <h3>{this.state.fullPost.title}</h3>
+                            <h3>{this.state.fullPost.title}</h3>
 
-                        <p>{this.state.fullPost.content}</p>
+                            <p>{this.state.fullPost.content}</p>
 
+                        </div>
+
+                        <div className="col-md-5 col-md-offset-7 comments-form-container">
+                            <form onSubmit={this.handleSubmit} >
+                                <div className="form-group">
+                                    <label htmlFor="commentAuthor">Name</label>
+                                    <input name="commentAuthor" type="text" className="form-control" id="commentAuthor" placeholder="Digite seu nome" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="commentBody">Comentário</label>
+                                    <textarea name="commentBody" type="text" className="form-control" id="commentBody" placeholder="Envie seu comentário"></textarea>
+                                </div>
+
+                                <button className="btn btn-primary">Send</button>
+
+                            </form>
+                        </div>
+
+
+                        <h4 className="comments-title">Comentários</h4>
+
+                        <div className="col-md-6">
+                            {commentsComponent}
+                        </div>
                     </div>
-
-                    <div className="col-md-5 col-md-offset-7 comments-form-container">
-                        <form onSubmit={this.handleSubmit} >
-                            <div className="form-group">
-                                <label htmlFor="commentAuthor">Name</label>
-                                <input name="commentAuthor" type="text" className="form-control" id="commentAuthor" placeholder="Digite seu nome" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="commentBody">Comentário</label>
-                                <textarea name="commentBody" type="text" className="form-control" id="commentBody" placeholder="Envie seu comentário"></textarea>
-                            </div>
-
-                            <button className="btn btn-primary">Send</button>
-
-                        </form>
-                    </div>
-
-
-                    <h4 className="comments-title">Comentários</h4>
-
-                    <div className="col-md-6">
-                        {commentsComponent}
-                    </div>
-                </div>
+                </SiteLayout>
             );
         }
         else {
