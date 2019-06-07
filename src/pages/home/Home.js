@@ -34,9 +34,7 @@ class Home extends React.Component {
         <div>
           <div className="row">
             <div className="col-md-8">
-
               {postsComponents}
-
             </div>
 
             <div className="col-md-3 col-md-offset-1">

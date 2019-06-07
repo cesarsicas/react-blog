@@ -11,7 +11,7 @@ const AdminLayout = ({ children, ...rest }) => {
             <nav class="navbar navbar-dark bg-dark">
                 <a class="navbar-brand" href="#">Admin</a>
             </nav>
-            <div className="container">
+            <div className="container layout-general-container">
                 {children}
             </div>
         </div>

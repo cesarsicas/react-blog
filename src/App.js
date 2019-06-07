@@ -15,7 +15,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/details/:postId" component={PostDetails} />
         <Route exact path="/admin" component={PostManagement} />
-        <Route path="/admin/post/:postId" component={PostEdit} />
+        <Route exact path="/admin/post/:postId" component={PostEdit} />
       </Switch>
     </BrowserRouter>
   );

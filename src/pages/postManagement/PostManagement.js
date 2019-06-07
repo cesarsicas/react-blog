@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 import AdminLayout from '../../layouts/admin/AdminLayout';
 
 class PostManagement extends React.Component {
@@ -22,13 +23,13 @@ class PostManagement extends React.Component {
     const postRowComponents = this.state.posts.map(
       (post, index) => {
         return (<tr>
-                  <td scope="row">{post.id}</td>
-                  <td>{post.title}</td>
-                  <td>
-                    <a className="btn btn-sm btn-info">Editar</a>
-                    <a className="btn  btn-sm btn-danger">Excluir</a>
-                  </td>                
-               </tr>);
+          <td scope="row">{post.id}</td>
+          <td>{post.title}</td>
+          <td>
+            <Link to={"/admin/post/" + post.id} className="btn btn-sm btn-info">Editar</Link>
+            <a className="btn  btn-sm btn-danger">Excluir</a>
+          </td>
+        </tr>);
       }
     );
 
@@ -46,11 +47,11 @@ class PostManagement extends React.Component {
               </tr>
             </thead>
             <tbody>
-                {postRowComponents}
+              {postRowComponents}
             </tbody>
           </table>
         </div>
-        </AdminLayout>
+      </AdminLayout>
     );
   }
 }
