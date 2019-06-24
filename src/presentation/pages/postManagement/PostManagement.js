@@ -10,7 +10,7 @@ class PostManagement extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8080/posts/list").then(
+    axios.get("http://localhost:8080/admin/posts").then(
       (response) => {
         this.setState({ posts: response.data }
         );

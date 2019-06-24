@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import Post from '../../components/post/Post'
 import SiteLayout from '../../layouts/site/SiteLayout';
+import { BASE_URL_DEV } from '../../../config/const';
+import axios from 'axios'
+
 
 class Home extends React.Component {
 
@@ -10,7 +12,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8080/posts/list").then(
+    axios.get(BASE_URL_DEV + "posts/list").then(
       (response) => {
         this.setState({ posts: response.data }
         );
