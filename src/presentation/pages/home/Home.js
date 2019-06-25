@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Post from '../../components/post/Post'
 import SiteLayout from '../../layouts/site/SiteLayout';
-import { BASE_URL_DEV } from '../../../config/const';
-import axios from 'axios'
+import { GetSitePosts } from '../../../domain/interactors/site/GetSitePosts';
+import { SitePostsRepository } from '../../../data/repository/SitePostsRepository';
 
 
 class Home extends React.Component {
@@ -11,8 +11,13 @@ class Home extends React.Component {
     posts: []
   }
 
+  constructor(){
+      super();
+      this.getPosts =  new GetSitePosts(new SitePostsRepository());
+  }
+
   componentDidMount() {
-    axios.get(BASE_URL_DEV + "posts/list").then(
+    this.getPosts.execute().then(
       (response) => {
         this.setState({ posts: response.data }
         );

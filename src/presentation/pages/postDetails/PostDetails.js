@@ -2,15 +2,23 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Comment from '../../components/comment/Comment'
 import SiteLayout from '../../layouts/site/SiteLayout';
+import { GetSitePostsDetails } from '../../../domain/interactors/site/GetSitePostsDetails';
+import { SitePostsRepository } from '../../../data/repository/SitePostsRepository';
+import { PostSiteComment } from '../../../domain/interactors/site/PostSiteComment';
 
 class PostDetails extends Component {
+  
     state = {
         fullPost: {}
     }
 
     constructor() {
         super();
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);               
+        const sitePostRepository =  new SitePostsRepository();
+
+        this.getPostDetails =  new GetSitePostsDetails(sitePostRepository);
+        this.postComment = new PostSiteComment(sitePostRepository);
     }
 
     componentDidMount() {
@@ -18,26 +26,22 @@ class PostDetails extends Component {
     }
 
     refreshPost() {
-        axios.get("http://localhost:8080/posts/" + this.props.match.params.postId).then(
+       this.getPostDetails.execute(this.props.match.params.postId).then(
             (response) => {
                 this.setState(
                     { fullPost: response.data }
                 );
             }
         );
-
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
         const data = new FormData(event.target);
-
-        axios.post("http://localhost:8080/posts/" + this.props.match.params.postId + "/comments",
-            {
-                "author": data.get('commentAuthor'),
-                "content": data.get('commentBody')
-            }).then(
+        this.postComment
+            .execute(this.props.match.params.postId, data.get('commentAuthor'), data.get('commentBody'))
+            .then(
                 (response) => {
                     this.refreshPost();
                 }
