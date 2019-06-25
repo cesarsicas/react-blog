@@ -3,6 +3,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom'
 import AdminLayout from '../../layouts/admin/AdminLayout';
 import PostForm from '../../components/postForm/PostForm';
+import { GetAdminPostsDetails } from '../../../domain/interactors/admin/GetAdminPostsDetails';
+import { AdminPostsRepository } from '../../../data/repository/AdminPostsRepository';
+import { isAuthenticated, getToken } from '../../../config/auth';
 
 class PostEdit extends React.Component {
 
@@ -10,19 +13,30 @@ class PostEdit extends React.Component {
         fullPost: {}
     }
 
+    constructor(){
+        super();
+        this.getPostDetails =  new GetAdminPostsDetails(new AdminPostsRepository());
+      }
+    
 
     componentDidMount() {
         this.refreshPost();
     }
 
     refreshPost() {
-        axios.get("http://localhost:8080/posts/" + this.props.match.params.postId).then(
-            (response) => {
-                this.setState(
-                    { fullPost: response.data }
-                );
-            }
-        );
+        if(isAuthenticated()){            
+            this.getPostDetails.execute(getToken(), this.props.match.params.postId).then(
+                (response) => {
+                    this.setState(
+                        { fullPost: response.data }
+                    );
+                }
+            );
+        }
+        else{
+            this.props.history.push('/')
+        }
+
 
     }
 

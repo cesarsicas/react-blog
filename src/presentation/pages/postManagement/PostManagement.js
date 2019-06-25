@@ -1,21 +1,37 @@
-import React, { Component } from 'react'
-import axios from 'axios';
+import React from 'react'
 import { Link } from 'react-router-dom'
 import AdminLayout from '../../layouts/admin/AdminLayout';
+import { GetAdminPosts } from '../../../domain/interactors/admin/GetAdminPosts';
+import { AdminPostsRepository } from '../../../data/repository/AdminPostsRepository';
+import { isAuthenticated, getToken } from '../../../config/auth';
 
 class PostManagement extends React.Component {
 
   state = {
     posts: []
   }
+  constructor(){
+    super();
+    this.getPosts =  new GetAdminPosts(new AdminPostsRepository());
+  }
+
 
   componentDidMount() {
-    axios.get("http://localhost:8080/admin/posts").then(
-      (response) => {
-        this.setState({ posts: response.data }
-        );
-      }
-    );
+    if(isAuthenticated()){
+      const token = getToken();
+
+      this.getPosts.execute(token).then(
+        (response) => {
+          this.setState({ posts: response.data }
+          );
+        }
+      );
+
+    }
+    else{
+      this.props.history.push('/')
+    }
+
   }
 
   render() {

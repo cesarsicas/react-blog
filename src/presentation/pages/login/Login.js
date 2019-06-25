@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import SiteLayout from '../../layouts/site/SiteLayout';
-import axios from 'axios'
 import { login } from '../../../config/auth';
-import { SitePostsRepository } from '../../../data/repository/SitePostsRepository';
-import { GetSitePostsDetails } from '../../../domain/interactors/site/GetSitePostsDetails';
 import { PostLogin } from '../../../domain/interactors/site/PostLogin';
 import { LoginRepository } from '../../../data/repository/LoginRepository';
 
@@ -31,8 +28,8 @@ class Login extends React.Component {
     const data = new FormData(event.target);
 
     this.postLogin.execute(data.get('email'), data.get('password')).then(
-      (response) => {
-        login(response);
+      (response) => {         
+        login(response.data);
         this.props.history.push('/admin')
       },
       (error)=>{
