@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import SiteLayout from '../../layouts/site/SiteLayout';
 import axios from 'axios'
 import { login } from '../../../config/auth';
+import { SitePostsRepository } from '../../../data/repository/SitePostsRepository';
+import { GetSitePostsDetails } from '../../../domain/interactors/site/GetSitePostsDetails';
+import { PostLogin } from '../../../domain/interactors/site/PostLogin';
+import { LoginRepository } from '../../../data/repository/LoginRepository';
 
 class Login extends React.Component {
 
@@ -12,15 +16,13 @@ class Login extends React.Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    const sitePostRepository = new LoginRepository();
+    this.postLogin = new PostLogin(sitePostRepository)
   }
 
   componentDidMount() {
-    // axios.get("http://localhost:8080/posts/list").then(
-    //   (response) => {
-    //     this.setState({ posts: response.data }
-    //     );
-    //   }
-    // );
+
   }
 
   handleSubmit(event) {
@@ -28,15 +30,15 @@ class Login extends React.Component {
 
     const data = new FormData(event.target);
 
-    axios.post("http://localhost:8080/login",
-      {
-        "username": data.get('email'),
-        "password": data.get('password')
-      }).then(
-        (response) => {
-          login(response);          
-        }
-      );
+    this.postLogin.execute(data.get('email'), data.get('password')).then(
+      (response) => {
+        login(response);
+        this.props.history.push('/admin')
+      },
+      (error)=>{
+        alert("Login inválido");
+      }
+    );
   }
 
   render() {
